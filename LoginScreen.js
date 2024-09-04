@@ -2,14 +2,18 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [lembrar, setLembrar] = useState(false);
+  const [senhaVisivel, setSenhaVisivel] = useState(false); // Estado para controlar a visibilidade da senha
 
   const toggleLembrar = () => {
     setLembrar(!lembrar);
+  };
+
+  const toggleSenhaVisivel = () => {
+    setSenhaVisivel(!senhaVisivel);
   };
 
   const handleBackPress = () => {
@@ -22,35 +26,44 @@ export default function LoginScreen() {
         <TouchableOpacity onPress={handleBackPress} style={styles.backButton}>
           <Icon name="chevron-back" size={24} color="#000" />
         </TouchableOpacity>
-        <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: 20 }}>
-        Bem-Vindo
-      </Text>
+        <Text style={styles.title}>
+          Bem-Vindo
+        </Text>
         <Text style={styles.titleVolta}>de volta</Text>
       </View>
 
-      <View style={styles.content}>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="#aaa"
-          value={email}
-          onChangeText={setEmail}
-          secureTextEntry
-          autoCapitalize="none"
-          autoCorrect={false}
-        />
+      <View style={styles.contentt}>
+        <View style={styles.content}>
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            placeholderTextColor="#aaa"
+            value={email}
+            onChangeText={setEmail}
+            autoCapitalize="none"
+            autoCorrect={false}
+          />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Senha"
-          placeholderTextColor="#aaa"
-          value={senha}
-          onChangeText={setSenha}
-          secureTextEntry
-          autoCapitalize="none"
-          autoCorrect={false}
-        />
-
+          <View style={styles.passwordContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Senha"
+              placeholderTextColor="#aaa"
+              value={senha}
+              onChangeText={setSenha}
+              secureTextEntry={!senhaVisivel} // Controle de visibilidade da senha
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+            <TouchableOpacity onPress={toggleSenhaVisivel} style={styles.eyeIcon}>
+              <Icon
+                name={senhaVisivel ? "eye" : "eye-off"} // Alterna entre os ícones
+                size={24}
+                color="#aaa"
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
         <View style={styles.checkboxContainer}>
           <TouchableOpacity onPress={toggleLembrar} style={styles.checkbox}>
             <View style={[styles.checkbox, lembrar && styles.checkedCheckbox]} />
@@ -81,7 +94,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     width: '115%',
-    height: 200,
+    height: 270,
     backgroundColor: '#f5f5f5',
     borderBottomLeftRadius: 60,
     justifyContent: 'flex-end',
@@ -90,40 +103,48 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    top: 20,
-    left: 10,
+    top: 40,
+    left: 30,
     zIndex: 1,
   },
   title: {
     marginLeft: 20,
     color: '#000',
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: 'bold',
+  },
+  contentt: {
+    position: 'absolute',
+    top: 350,
+    left: 30,
+    width: 350,
   },
   titleVolta: {
     marginLeft: 20,
-    marginBottom: 20,
+    marginBottom: 30,
     color: '#000',
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: 'bold',
   },
-  content: {
-    flex: 1,
-    justifyContent: 'center',
-    marginTop: 150,
-  },
   input: {
-    backgroundColor: '#222',
     color: '#fff',
-    paddingHorizontal: 10,
-    paddingVertical: 15,
-    borderRadius: 10,
-    marginBottom: 20,
-    borderColor: '#333',
-    borderWidth: 1,
-    height: 50, // Altura fixa para garantir que o campo seja de uma linha
-    fontSize: 16, // Tamanho da fonte para manter o texto legível
-    lineHeight: 18, // Altura da linha para manter o texto em uma linha
+    fontSize: 16,
+    borderBottomWidth: 1,
+    borderColor: '#fff',
+    marginBottom: 40,
+    flex: 1,
+  },
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomWidth: 0,
+    borderColor: '#fff',
+    // marginBottom: 40,
+    
+  },
+  eyeIcon: {
+    marginBottom: 55,
+    marginLeft: -25,
   },
   checkboxContainer: {
     flexDirection: 'row',
@@ -145,19 +166,21 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   button: {
-    backgroundColor: '#FFD700',
+    backgroundColor: '#FFD942',
     paddingVertical: 15,
-    borderRadius: 10,
+    borderRadius: 20,
     alignItems: 'center',
-    marginBottom: 20,
+    marginTop: 28,
   },
   buttonText: {
     color: '#000',
-    fontSize: 16,
+    fontSize: 24,
     fontWeight: 'bold',
   },
   registerText: {
     color: '#fff',
     textAlign: 'center',
+    marginTop: 20,
   },
 });
+
